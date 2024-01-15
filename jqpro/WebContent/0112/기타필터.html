@@ -26,7 +26,7 @@ $(function() {
 		$('.res2').html(str);
 	})
 	
-	$('#fhid').on('click',function(event){
+	$('#fhid').on('click',function(){
 		
 		str = "";
 		$('#testForm *:hidden').each(function(i,v){
@@ -43,17 +43,27 @@ $(function() {
 		$('.fres1').html(str);
 	})
 	
-	$('#fvisi').on('click',function(event){
+	$('#fvisi').on('click',function(){
 		
+		str = "";
 		$('#testForm *:visible').each(function(i,v){
 			
 			vtag = v.tagName;
-			alert(vtag);
+			
+			if(vtag == "INPUT"){
+				str += vtag + " => " + $(this).attr('name') + " : ";
+				str += $(this).val() + "<br>";
+			}else if(vtag !="BR"){
+				str += vtag + " => " + $(this).html()+ "<br>";
+			}
+			
+			//alert(vtag);
 			//$(this).attr('name');
 			//$(this).val('name');
 			//$(this).text('name');
 			
 		})
+		$('.fres2').html(str);
 	})
 	
 	
