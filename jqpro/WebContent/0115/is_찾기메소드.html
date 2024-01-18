@@ -9,13 +9,26 @@
 
 $(function(){
 	$('p').on('click',function(){
+		
+//		console.log($(this).css('color'));
+//		$(this).css('font-size','+=1.2rem');
+		
+		
 		//부모 찾기
 		vparents = $(this).parent();
 		
 		if(vparents.is('.result')){
 			$(this).clone().appendTo(vparents).css('color','red');
+		}else{
+			alert("작업대상이 아닙니다.");
 		}
 		
+	})
+	
+	$('.pp').on('click',function(){
+//		$(this).css('color','red');
+		$(this).addClass('bcolor');
+
 	})
 })
 
@@ -24,24 +37,45 @@ $(function(){
 p{
 	background: gold;
 }
+.result{
+	background: yellow;
+}
+.bcolor{
+	color: blue;
+}
 </style>
 </head>
 <body>
 
-<div class="box">
-<h4></h4>
-<input type="button" value="확인" onclick="proc1()">
-<br><br>
-<div id="result1" class="result">
-<p>무궁화 꽃이 피었습니다</p>
-</div>
+	<div class="box">
+		<h4></h4>
+		<input type="button" value="확인" onclick="proc1()"> <br><br>
+		<div id="result1" class="result">
+			<p>무궁화 꽃이 피었습니다</p>
+		</div>
 
-<p>소나기</p>
+		<p>소나기</p>
 
-<div id="result2" class="result">
-<p>별 헤는 밤</p>
-</div>
-</div>
+		<div id="result2" class="result">
+			<p>별 헤는 밤</p>
+		</div>
+	</div>
+
+
+	<div class="box">
+		<h4></h4>
+		<input type="button" value="확인" onclick="proc1()"> <br><br>
+		<div id="result3" class="result">
+			<p class="pp">class="pp" 무궁화 꽃이 피었습니다</p>
+		</div>
+		
+		<p>소나기</p>
+		
+		<div id="result4" class="result">
+			<p class="pp">class="pp" 별 헤는 밤</p>
+		</div>
+	</div>
+
 
 </body>
 </html>

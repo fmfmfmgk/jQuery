@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//$('#btn1').on('click',function(){  //기존에 만들어 놓은 요소에 대해서만
+	$(document).on('click','#btn1',function(){  //기존 + 새롭게 만들어진 요소들도 이벤트 핸들러가 실행 됨.
+		//각 요소의 현재상태를 얻어돈다.
+		vchk = $('#checkTest').prop('checked');
+		vsel = $('#selTest option').eq(2).prop('selected');
+		
+		vread = $('#txtTest').prop('readonly');
+		vdis = $('#result1 input[type=button]').prop('disabled');
+		
+		//출력내용
+		str = "";
+		
+		str += "vchk : " + vchk + "<br>";
+		str += "vsel : " + vsel + "<br>";
+		str += "vread : " + vread + "<br>";
+		str += "vdis : " + vdis + "<br>";
+		
+		//출력
+		$('#res1').html(str);
+		
+		//현재 상태 변경하기
+		$('#checkTest').prop('checked', !vchk);
+		$('#selTest option').eq(2).prop('selected',!vsel);
+		$('#txtTest').prop('readonly', !vread);
+		$('#result1 input[type=button]').prop('disabled', !vdis);
+	})
+	
+	$('#all').on('change',function(){
+		//현재 event 실행대상(this)의 change상태 값을 가져온다.
+		vchk = $(this).prop('checked');
+		
+		//class = chk인 요소에 vchk의 값으로 chekced속성을 설정한다.
+		$('.chk').prop('checked',vchk);
+		
+	})
+})
+</script>
+</head>
+<body>
+
+	<div class="box">
+		<h4>지금 현재 상태를 반대상태로 바꾼다.</h4>
+		<input type="button" value="확인" id="btn1"> <br><br>
+		<div id="result1">
+			<form>
+				체크박스(라디오버튼) : 
+				<input type="checkbox" id="checkTest" checked><br><br> 
+				
+				리스트박스(select객체) : 
+				<select id="selTest">
+					<option value="1">하나</option>
+					<option value="2">둘</option>
+					<option value="3" selected>셋</option>
+					<option value="4">넷</option>
+				</select><br><br> 
+				
+				text객체 (readonly) : 
+				<input type="text" value="가나다" id="txtTest"><br><br> 
+				
+				button객체(disabled) : 
+				<input type="button" value="실행" onclick="alert('hello')">
+			</form>
+		</div>
+		<div id="res1"></div>
+	</div>
+
+
+	<div class="box">
+		<h4>지금 현재 상태를 반대상태로 바꾼다.</h4>
+		<input type="button" value="확인" id="btn1"> <br><br>
+		<div id="result2">
+			<input id="all" type="checkbox" value="전체 선택">전체선택
+			<br><br>
+			<input class="chk" type="checkbox" value="1">1
+			<input class="chk" type="checkbox" value="2">2
+			<input class="chk" type="checkbox" value="3">3
+			<input class="chk" type="checkbox" value="4">4
+			<input class="chk" type="checkbox" value="5">5
+		</div>
+		<div id="res1"></div>
+	</div>
+
+</body>
+</html>
