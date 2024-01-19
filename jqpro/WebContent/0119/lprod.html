@@ -9,16 +9,32 @@
 $(function(){
 	$('#btn1').on('click',function(){
 		$.ajax({
-			url : '/jqpro/서블릿이름',
+			url : '/jqpro/0119/LprodServlet.jsp',
 			type : 'get',
 			success : function(res){
-									
+				alert("성공");
+				
+				code = "<table border='1'";
+				code += "<tr><td>상품번호</td>";
+				code += "<td>분류번호</td>";
+				code += "<td>분류명</td></tr>";
+				
+				$.each(res,function(i, v){
+					code += `<tr><td>${v.lprod_id}</td>`;
+					code += `<td>${v.lprod_gu}</td>`;
+					code += `<td>${v.lprod_nm}</td></tr>`;
+				})
+				code += "</table>";
+				
+				$('#result1').html(code);
+				
+				
 			},
 			error : function(xhr){
 				alert("상태 : " + xhr.status);
 			},
 			dataType : 'json'
-		}),
+		})
 	})
 })
 </script>
