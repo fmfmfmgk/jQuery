@@ -3,8 +3,11 @@ package kr.or.ddit.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.org.apache.regexp.internal.RE;
 
 import kr.or.ddit.member.Vo.MemberVo;
 import kr.or.ddit.util.DBUtil3;
@@ -17,11 +20,11 @@ public class MemberDaoImpl implements IMemberDao {
 	ResultSet rs = null;
 
 	//singleton
-	private static MemberDaoImpl dao;
+	private static IMemberDao dao;
 	
 	private MemberDaoImpl() {}
 	
-	public MemberDaoImpl getinstance() {
+	public static IMemberDao getinstance() {
 		if(dao == null) {
 			dao = new MemberDaoImpl();
 		}
@@ -54,9 +57,33 @@ public class MemberDaoImpl implements IMemberDao {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return list;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

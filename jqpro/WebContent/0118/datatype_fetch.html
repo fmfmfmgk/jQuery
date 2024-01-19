@@ -7,7 +7,9 @@
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 textproc = () =>{
-	let promi = fetch('../0117/text.jsp')
+	fetch('http://192.168.142.17/jqpro/0117/text.jsp',{
+		mode : 'cors'
+	})
 	.then(function(resp){
 		console.log("resp", resp);
 		
@@ -30,8 +32,6 @@ textproc = () =>{
 		
 		$('#result1').html(code);
 	})
-	
-	console.log("promi",promi);
 }
 
 arrproc = () =>{
