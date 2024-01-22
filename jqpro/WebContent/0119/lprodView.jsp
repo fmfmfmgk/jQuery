@@ -20,7 +20,7 @@
 	%>
 		{
 			"lprod_id"   : "<%=vo.getLprod_id() %>",				
-			"lprod_gu" : "<%=vo.getLprod_gu() %>",			
+			"lprod_gu" : "<%=vo.getLprod_gu() %>",
 			"lprod_nm"   : "<%=vo.getLprod_nm() %>"
 		}
 	<%		
