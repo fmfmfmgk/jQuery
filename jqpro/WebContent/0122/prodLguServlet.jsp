@@ -1,3 +1,5 @@
+<%@page import="java.io.BufferedReader"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="kr.or.ddit.prod.vo.prodVO"%>
 <%@page import="java.util.List"%>
 <%@page import="kr.or.ddit.prod.service.ProdServiceImpl"%>
@@ -13,8 +15,26 @@
 <body>
 <%
 	//요청시 전송데이터 받기
-	String lgu = request.getParameter("gu");
+//	String lgu = request.getParameter("gu");
 
+	//2) data : JSON.stringify({ "prod_lgu" : guvalue }),형식의 직렬화 데이터
+	StringBuffer buf = new StringBuffer();
+	String line = null;
+	
+	BufferedReader reader = request.getReader();
+	
+	while((line = reader.readLine()) != null){
+		buf.append(line);
+	};
+	
+	String reqdata = buf.toString();
+	
+	//역직렬화 - (java)객체 형태로 변환
+	Gson gson = new Gson();
+	prodVO vo = gson.fromJson(reqdata, prodVO.class);
+	//vo.setprod_lgu("P101"); 의 형태로 들어가 있음
+	String lgu = vo.getProd_lgu();
+	
 	//service객체 얻기
 	IProdService service = ProdServiceImpl.getInstance();
 	

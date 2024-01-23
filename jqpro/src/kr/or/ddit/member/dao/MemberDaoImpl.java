@@ -10,6 +10,7 @@ import java.util.List;
 import com.sun.org.apache.regexp.internal.RE;
 
 import kr.or.ddit.member.Vo.MemberVo;
+import kr.or.ddit.member.Vo.ZipVo;
 import kr.or.ddit.util.DBUtil3;
 
 public class MemberDaoImpl implements IMemberDao {
@@ -72,7 +73,25 @@ public class MemberDaoImpl implements IMemberDao {
 		
 		return list;
 	}
-
+	
+	@Override
+	public String selectById(String id) {
+		
+		return null;
+	}
+	
+	@Override
+	public List<ZipVo> selectByDong(String dong) {
+		
+		return null;
+	}
+	
+	@Override
+	public int insertMember(MemberVo vo) {
+		
+		return 0;
+	}
+	
 }
 
 

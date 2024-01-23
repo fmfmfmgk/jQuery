@@ -70,8 +70,33 @@ public class ProdDaoImpl implements IProdDao {
 
 	@Override
 	public prodVO selectById(String lprod_id) {
-		// TODO Auto-generated method stub
-		return null;
+		prodVO vo = new prodVO();
+		
+		String sql = "select * from prod where prod_id=?";
+		
+		try {
+			conn = DBUtil3.getConnection();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, lprod_id);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			vo.setProd_id(rs.getString("PROD_ID"));
+			vo.setProd_name(rs.getString("PROD_NAME"));
+			vo.setProd_lgu(rs.getString("PROD_LGU"));
+			vo.setProd_buyer(rs.getString("PROD_BUYER"));
+			vo.setProd_cost(rs.getInt("PROD_COST"));
+			vo.setProd_price(rs.getInt("PROD_PRICE"));
+			vo.setProd_sale(rs.getInt("PROD_SALE"));
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return vo;
 	}
 
 }

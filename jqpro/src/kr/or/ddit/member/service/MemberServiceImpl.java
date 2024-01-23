@@ -3,6 +3,7 @@ package kr.or.ddit.member.service;
 import java.util.List;
 
 import kr.or.ddit.member.Vo.MemberVo;
+import kr.or.ddit.member.Vo.ZipVo;
 import kr.or.ddit.member.dao.IMemberDao;
 import kr.or.ddit.member.dao.MemberDaoImpl;
 
@@ -29,5 +30,20 @@ public class MemberServiceImpl implements IMemberService {
 	@Override
 	public List<MemberVo> getAllMember() {
 		return dao.getAllMember();
+	}
+
+	@Override
+	public String selectById(String id) {
+		return dao.selectById(id);
+	}
+
+	@Override
+	public List<ZipVo> selectByDong(String dong) {
+		return dao.selectByDong(dong);
+	}
+
+	@Override
+	public int insertMember(MemberVo vo) {
+		return dao.insertMember(vo);
 	}
 }
