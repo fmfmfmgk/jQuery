@@ -21,7 +21,8 @@
 			형식) <typeAlias type="패키지명까지 포함된 전체 이름" alias="alias명"/>
 		 -->
 		 <typeAlias type="kr.or.ddit.member.Vo.MemberVo" alias="MemberVo"/>
-		 <typeAlias type="kr.or.ddit.member.Vo.ZiqVo" alias="ZipVo"/>
+		 <typeAlias type="kr.or.ddit.member.Vo.ZipVo" alias="ZipVo"/>
+		 <typeAlias type="kr.or.ddit.buyer.vo.BuyerVo" alias="BuyerVo"/>
 	</typeAliases>
 	
 	<!-- DB에 연결 설정하기 -->
@@ -42,7 +43,7 @@
 		<!-- 
 			형식) <mapper resource="경로명/파일명.xml"/>
 		 -->
-		 <mapper resource="kr/or/ddit/mapper/mem-mapper.xml"/>
+		 <mapper resource="kr/or/ddit/mapper/Buyer-mapper.xml"/>
 	</mappers>
 	
 </configuration>

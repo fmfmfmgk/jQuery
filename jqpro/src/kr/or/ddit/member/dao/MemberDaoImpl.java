@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.regexp.internal.RE;
+import org.apache.ibatis.session.SqlSession;
 
+import kr.or.ddit.config.MybatisUtil;
 import kr.or.ddit.member.Vo.MemberVo;
 import kr.or.ddit.member.Vo.ZipVo;
 import kr.or.ddit.util.DBUtil3;
@@ -76,22 +77,47 @@ public class MemberDaoImpl implements IMemberDao {
 	
 	@Override
 	public String selectById(String id) {
-		
-		return null;
+		SqlSession session = MybatisUtil.getSqlSession();
+		String res = null;
+		try {
+			res = session.selectOne("Member.selectById",id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.commit();
+			if(session !=null) session.close();
+		}
+		return res;
 	}
 	
 	@Override
 	public List<ZipVo> selectByDong(String dong) {
-		
-		return null;
+		SqlSession session = MybatisUtil.getSqlSession();
+		List<ZipVo> list = null;
+		try {
+			list = session.selectList("Member.selectByDong", dong);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session !=null) session.close();
+		}
+		return list;
 	}
 	
 	@Override
 	public int insertMember(MemberVo vo) {
-		
-		return 0;
+		SqlSession session = MybatisUtil.getSqlSession();
+		int cnt = 0;
+		try {
+			cnt = session.insert("Member.insertMember", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.commit();
+			if(session !=null) session.close();
+		}
+		return cnt;
 	}
-	
 }
 
 

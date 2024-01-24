@@ -11,6 +11,58 @@
 <script type="text/javascript">
 $(function(){
 	
+	$('#btn1').on('click',function(){
+		$.ajax({
+			url  : '/jqpro/buyer/BuyerServlet.jsp',
+		  	type : 'get',
+		  	success : function(res){
+		  		code = "";
+		  		
+				$.each(res,function(i,v){
+					code += `<div>${v.buyer_name}</div>`;
+				})
+		  		$('#td1').html(code);
+		  		
+		  	},
+		  	error : function(xhr){
+		  		alert("상태: " + xhr.status);
+		  	},
+			dataType : 'json'
+		})
+	})
+	
+	$('#td1').on('click','div',function(){
+		name = $(this).text().trim();
+		$.ajax({
+			url  : '/jqpro/buyer/BuyerServlet2.jsp',
+		  	type : 'get',
+		  	data : 'name='+name,
+		  	success : function(res){
+		  		code = "";
+				
+		  		code += `<div> ${res.buyer_id}</div>`;
+		  		code += `<div> ${res.buyer_name}</div>`;
+		  		code += `<div> ${res.buyer_lgu}</div>`;
+		  		code += `<div> ${res.buyer_bank}</div>`;
+		  		code += `<div> ${res.buyer_bankno}</div>`;
+		  		code += `<div> ${res.buyer_bankname}</div>`;
+		  		code += `<div> ${res.buyer_zip}</div>`;
+		  		code += `<div> ${res.buyer_add1}</div>`;
+		  		code += `<div> ${res.buyer_add2}</div>`;
+		  		code += `<div> ${res.buyer_comtel}</div>`;
+		  		code += `<div> ${res.buyer_mail}</div>`;
+		  		
+				
+		  		$('#td2').html(code);
+		  	},
+		  	error : function(xhr){
+		  		alert("상태: " + xhr.status);
+		  	},
+			dataType : 'json'
+		})
+	})
+	
+	
 })
 </script>
 </head>
@@ -28,8 +80,8 @@ $(function(){
 		</tr>
 		
 		<tr>
-			<td></td>
-			<td></td>
+			<td id="td1"></td>
+			<td id="td2"></td>
 		</tr>
 		
 	</table>

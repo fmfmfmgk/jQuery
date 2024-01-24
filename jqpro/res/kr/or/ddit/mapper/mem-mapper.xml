@@ -9,9 +9,8 @@
 	 	사용되는 이름이다. 
 	 -->
 <mapper namespace="Member">
-	 
 	
-	 <!-- insert문 -->
+	<!-- 회원가입 insert문 -->
 	<insert id="insertMember" parameterType="MemberVo">
 	 	insert into member (
 	 				mem_id, mem_pass, mem_name, 
@@ -23,8 +22,14 @@
 	               #{mem_add2}, #{mem_hp}, #{mem_mail})
 	</insert>
 	
-	<select id="getAllmember" resultType="MemberVo">
-		select * from member
+	<!-- ID 중복검사 -->
+	<select id="selectById" parameterType="String" resultType="String">
+		select mem_id from member where mem_id=#{id}
+	</select>
+	
+	<!-- 우편번호 검색 -->
+	<select id="selectByDong" parameterType="String" resultType="ZipVo">
+		select * from ziptb where dong like #{data}||'%'
 	</select>
 	
 	
