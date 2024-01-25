@@ -3,16 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/public.css">
 <script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/jquery.serializejson.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script type="text/javascript">
+idvalue = null;
 $(function(){
+	
+	//전송 이벤트
+	$('#mform').on('submit',function(){
+		event.preventDefault();
+
+		//입력한 모든 값들을 가져온다
+		/* $('#id').val().trim();
+		$('#name').val().trim();
+		$('#bir').val().trim();
+		$('#pwd').val().trim();
+		$('#hp').val().trim();
+		$('#email').val().trim();
+		$('#zip').val().trim();
+		$('#add1').val().trim();
+		$('#add2').val().trim(); */
+		
+		//script객체로 구성
+		/* formdata = {"mem_id"   : $('#id').val().trim(),
+					"mem_name" : $('#name').val().trim(),
+					"mem_bir"  : $('#bir').val().trim(),
+					"mem_pass" : $('#pwd').val().trim(),
+					"mem_hp"   : $('#hp').val().trim(),
+					"mem_mail" : $('#email').val().trim(),
+					"mem_zip"  : $('#zip').val().trim(),
+					"mem_add1" : $('#add1').val().trim(),
+					"mem_add2" : $('#add2').val().trim()
+		} */
+		
+		formdata = $("#mform").serializeJSON();
+		console.log(formdata);
+		
+		//직렬화 해서 서버로 전송
+		fetch('/jqpro/member/joinservlet.jsp',{
+			method : 'POST',
+			headers : {
+				//id=a001&pass=1234 형식
+//				"Content-Type" : 'application/x-www-form-urlencoded'
+				
+				//
+				"Content-Type" : 'application/json;charset=utf-8'
+			},
+			body : JSON.stringify(formdata)
+		})
+		.then(response => { //function(response){}
+			//성공여부 : ok, status, statusText 속성이 있음
+			console.log(response);
+		})
+		
+	})
+	
+	
+	
+	$('input[value=번호검색]').on('click',function(){
+		window.open("searchDong.jsp","우편번호 찾기","width=400 height=500");
+	})
+	
+	
+	//입력시 정규식 체크를 따로 만든다.
+	$('#id').on('keyup',function(){
+		//입력한 값을 가져온다.
+		idvalue = $(this).val().trim();
+		
+		idreg = /^[a-zA-Z][a-zA-Z0-9]{3,7}$/
+		
+		//test() : 정규식체크 후 true, false를 리턴
+		if(!idreg.test(idvalue)){
+			//틀렸으면 빨간색 테두리로 변경
+			$(this).css('border', '2px solid red');
+		}else{
+			$(this).css('border', '2px solid blue');
+		}
+		
+	})
+	
+	
+//	$('input[value=중복검사]').on('click',function(){})
+	$('#idcheck').on('click',function(){
+		//입력한 id값을 가져온다.
+		
+		//서버로 전송
+		$.ajax({
+			url : '/jqpro/member/IdcheckServlet.jsp',
+//			data : 'id='+idvalue,
+			//직렬화 해서 보내려면 아래처럼
+			data : JSON.stringify({ "mem_id" : idvalue }),
+			type : 'post',
+			success : function(res){
+				//alert(res.flag);
+				$('#spanid').html(res.flag).css('color','red');
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+		
+	})
 	
 })
 </script>
+<style>
+.container .mb-3{
+	width : 200px;
+}
+.container .addr{
+	width : 400px;
+}
+</style>
 </head>
 <body>
 
@@ -21,22 +128,60 @@ $(function(){
 <br><br>
 <div id="result1">
 	<div class="container mt-3">
-	  <h2>회원가입</h2>
-	  <form>
-	    <div class="mb-3 mt-3">
-	      <label for="email">Email:</label>
-	      <input type="text" class="form-control" id="email" name="email">
+	
+	  <form id="mform">
+	  	<div class="mb-3 mt-3">
+	      <label for="id">아이디</label>
+	      <input type="button" id="idcheck" value="중복검사" class="btn btn-outline-secondary btn-sm">
+	      <span id="spanid"></span>
+	      <input type="text" class="form-control" id="id" name="mem_id">
 	    </div>
+	    
+	  	<div class="mb-3 mt-3">
+	      <label for="name">이름</label>
+	      <input type="text" class="form-control" id="name" name="mem_name">
+	    </div>
+	    
+	  	<div class="mb-3 mt-3">
+	      <label for="bir">생년월일</label>
+	      <input type="date" class="form-control" id="bir" name="mem_bir">
+	    </div>
+	    
 	    <div class="mb-3">
-	      <label for="pwd">Password:</label>
-	      <input type="password" class="form-control" id="pwd" name="pswd">
+	      <label for="pwd">비밀번호</label>
+	      <input type="password" class="form-control" id="pwd" name="mem_pass">
 	    </div>
-	    <div class="form-check mb-3">
-	      <label class="form-check-label">
-	        <input class="form-check-input" type="checkbox" name="remember"> Remember me
-	      </label>
+	    
+	  	<div class="mb-3 mt-3">
+	      <label for="hp">휴대폰번호</label>
+	      <input type="text" class="form-control" id="hp" name="mem_hp">
 	    </div>
-	    <button type="button" class="btn btn-primary">Submit</button>
+	    
+	    <div class="mb-3 mt-3">
+	      <label for="email">Email</label>
+	      <input type="text" class="form-control" id="email" name="mem_mail">
+	    </div>
+	    
+	    <div class="mb-3 mt-3">
+	      <label for="zip">우편번호</label>
+	      <input type="button" value="번호검색" class="btn btn-outline-secondary btn-sm">
+	      <input type="text" class="form-control" id="zip" name="mem_zip">
+	    </div>
+	    
+	    <div class="mb-3 mt-3 addr">
+	      <label for="add1">주소</label>
+	      <input type="text" class="form-control" id="add1" name="mem_add1">
+	    </div>
+	    
+	    <div class="mb-3 mt-3 addr">
+	      <label for="add2">상세주소</label>
+	      <input type="text" class="form-control" id="add2" name="mem_add2">
+	    </div>
+	    
+	    <button type="button" id="send" class="btn btn-primary">확인</button>
+	    
+	    <!-- $('#form').on('submit',function(){}) -->
+	    <button type="submit" class="btn btn-primary">전송</button>
 	  </form>
 	</div>
 </div>

@@ -28,6 +28,7 @@
 	
 	String reqdata = buf.toString(); 
 	
+	//역직렬화 -> 객체 형태로 변환
 	Gson gson = new Gson();
 	prodVO vo = gson.fromJson(reqdata,prodVO.class);
 	//vo.setprod_id("P101000001")형태로 저장되어있음

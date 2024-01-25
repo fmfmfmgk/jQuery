@@ -43,6 +43,7 @@
 		<!-- 
 			형식) <mapper resource="경로명/파일명.xml"/>
 		 -->
+		 <mapper resource="kr/or/ddit/mapper/mem-mapper.xml"/>
 		 <mapper resource="kr/or/ddit/mapper/Buyer-mapper.xml"/>
 	</mappers>
 	
