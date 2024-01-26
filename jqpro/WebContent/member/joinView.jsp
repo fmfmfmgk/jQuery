@@ -3,12 +3,11 @@
 
 <%
 	//controller에서 저장한 데이터 꺼내기
-	int res = (int)request.getAttribute("list");
+	int res = (Integer)request.getAttribute("list");
 	if(res>0){
 %> 
 		{
 			"flag" : "성공"
-		
 		}
 	<%}else{%> 
 		{

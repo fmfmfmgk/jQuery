@@ -12,6 +12,67 @@
 <script type="text/javascript">
 idvalue = null;
 $(function(){
+	//우편번호 출력결과에서 하나를 선택하면 
+	$(document).on('click','.ziptr',function(){
+		zcode = $('td',this).eq(0).text().trim();
+		addr  = $('td',this).eq(1).text().trim();
+		
+		$('#zip').val(zcode);
+		$('#add1').val(addr);
+		
+		$('#dong').val("");
+		$('#result').empty();
+		
+		$('#myModal').modal('hide');
+		
+	})
+	
+	
+	
+	//동 이름 입력후 확인버튼에 이벤트
+	$('#dongbtn').on('click',function(){
+		//입력한 동 이름을 가져온다.
+		dongvalue = $('#dong').val().trim();
+		
+		//입력여부
+		if(dongvalue.length <1){
+			alert("동 입력~");
+			return false;
+		}
+		//alert("입력성공!")
+		
+		//서버로 전송
+		$.ajax({
+			url : "/jqpro/member/searchDongServlet.jsp",
+			data : { "dong" : dongvalue },
+			type : 'post',
+			success : function(res){
+				code = "<table class='table table-striped'>";
+				code += "<tr><td>우편번호</td>";
+				code += "<td>주소</td>";
+				code += "<td>번지</td></tr>";
+				
+				$.each(res, function(i,v){
+					
+					bunji = v.bunji;
+					if(bunji == null) bunji = "";
+					
+					code += `<tr class="ziptr"><td>${v.zipcode}</td>`;
+					code += `<td>${v.sido} ${v.gugun} ${v.dong}</td>`;
+					code += `<td>${bunji}</td></tr>`;
+				})
+				code += "</table>"
+				
+				$('#result').html(code);
+				
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+	})
+	
 	
 	//전송 이벤트
 	$('#mform').on('submit',function(){
@@ -40,6 +101,12 @@ $(function(){
 					"mem_add2" : $('#add2').val().trim()
 		} */
 		
+		f1 = $('#mform').serialize();
+		f2 = $('#mform').serializeArray();
+		console.log(f1);
+		console.log(f2);
+		
+		
 		formdata = $("#mform").serializeJSON();
 		console.log(formdata);
 		
@@ -53,13 +120,23 @@ $(function(){
 				//
 				"Content-Type" : 'application/json;charset=utf-8'
 			},
-			body : JSON.stringify(formdata)
+			body : JSON.stringify(formdata) //객체를 json문자열로 직렬화
 		})
 		.then(response => { //function(response){}
-			//성공여부 : ok, status, statusText 속성이 있음
+			//성공여부 : ok(true/false), status, statusText 속성이 있음
 			console.log(response);
+			if(response.ok){
+				return response.json() //json.parse(); json형태를 script객체로 다시 변환(역직렬화)
+			}else{
+				throw new Error(`${response.status} ${response.statusText}`);
+			}
 		})
-		
+		.then(datas =>{
+			$('#joinspan').text(datas.flag).css('color','red');
+		})
+		.catch(error=>{
+			alert("상태 : "+error);
+		})
 	})
 	
 	
@@ -165,6 +242,8 @@ $(function(){
 	    <div class="mb-3 mt-3">
 	      <label for="zip">우편번호</label>
 	      <input type="button" value="번호검색" class="btn btn-outline-secondary btn-sm">
+	      
+	      <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">검색모달</button>
 	      <input type="text" class="form-control" id="zip" name="mem_zip">
 	    </div>
 	    
@@ -182,10 +261,43 @@ $(function(){
 	    
 	    <!-- $('#form').on('submit',function(){}) -->
 	    <button type="submit" class="btn btn-primary">전송</button>
+	    <span id="joinspan"></span>
 	  </form>
 	</div>
 </div>
 </div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">우편번호 찾기</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       <h2>우편번호 찾기</h2>
+		동이름 입력
+		<input type="text" id="dong">
+		<input type="button" value="확인" id="dongbtn">
+		<br><br>
+		<div id="result"></div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

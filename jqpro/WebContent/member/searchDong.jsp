@@ -53,9 +53,9 @@ $(function(){
 					bunji = v.bunji;
 					if(bunji == null) bunji = "";
 					
-					code += `<tr class="ziptr"><td> ${v.zipcode} </td>`;
-					code += `<td> ${v.sido} ${v.gugun} ${v.dong} </td>`;
-					code += `<td> ${bunji} </td></tr>`;
+					code += `<tr class="ziptr"><td>${v.zipcode}</td>`;
+					code += `<td>${v.sido} ${v.gugun} ${v.dong}</td>`;
+					code += `<td>${bunji}</td></tr>`;
 				})
 				code += "</table>"
 				

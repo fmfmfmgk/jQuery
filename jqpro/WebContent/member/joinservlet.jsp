@@ -35,6 +35,7 @@
 	
 	//service 메소드 호출 -> 결과값 받기
 	int res = service.insertMember(vo);
+	System.out.println("res ==================" + res);
 	
 	//결과값을 request에 저장하기
 	request.setAttribute("list", res);
